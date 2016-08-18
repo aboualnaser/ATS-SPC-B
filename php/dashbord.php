@@ -17,31 +17,31 @@
 <h2>(Suivi de Présence du Collaborateur)</h2>
 </div>
 <ul class="nav nav-pills">
-  <li role="presentation" class="active"><a href="dashbord.php"><span class="glyphicon glyphicon-asterisk"></span>Dashbord</a></li>
-  <li role="presentation"><a href="addnew.php"><span class="glyphicon glyphicon-asterisk"></span>Addnew</a></li>
-  <li role="presentation"><a href="showall.php"><span class="glyphicon glyphicon-asterisk"></span>Report</a></li>
-  <li role="presentation"><a href="login.php"><span class="glyphicon glyphicon-asterisk"></span>login</a></li>
+  <li role="presentation" class="active"><a href="php/dashbord.php"><span class="glyphicon glyphicon-asterisk"></span>Dashbord</a></li>
+  <li role="presentation"class="active"><a href="php/addnew.php"><span class="glyphicon glyphicon-asterisk"></span>Addnew</a></li>
+  <li role="presentation"class="active"><a href="php/showall.php"><span class="glyphicon glyphicon-asterisk"></span>Showall</a></li>
+  <li role="presentation"class="active"><a href="../index.php"><span class="glyphicon glyphicon-asterisk"></span>checkin</a></li>
 </ul>
 <?php
 error_reporting("E_ALL & ~E_NOTIC");
 require 'conn.php';
-if ($_GET['login']=='activ') {
+if ($_GET['users']=='activ') {
 	$id = intval($_GET['id']);
-	$sql="UPDATE login SET activ=1 WHERE id=:id ";
+	$sql="UPDATE users SET activ=1 WHERE id=:id ";
 	$stml=$conn->prepare($sql);
 	$stml->bindParam(':id',$id,PDO::PARAM_INT);
 	$stml->execute();
 	header("location:dashbord.php");
 }
-elseif ($_GET['login']=='unactiv') {
+elseif ($_GET['users']=='unactiv') {
 	$id = intval($_GET['id']);
-	$sql="UPDATE login SET activ=0 WHERE id=:id ";
+	$sql="UPDATE users SET activ=0 WHERE id=:id ";
 	$stml=$conn->prepare($sql);
 	$stml->bindParam(':id',$id,PDO::PARAM_INT);
 	$stml->execute();
 	header("location:dashbord.php");
 }
-$sql="SELECT * FROM login ORDER BY id";
+$sql="SELECT * FROM users ORDER BY id";
 $stmt =$conn->query($sql);
 $count=$stmt->rowcount();
 $id=1;
@@ -52,10 +52,10 @@ if($count){
 <table class="table">
 	<tr>
   <td>id</td>
-  <td>user name</td>
-  <td>password</td>
-  <td>time</time></td>
-  <td>activ</td>
+  <td>name</td>
+  <td>surname</td>
+  <td>email</time></td>
+  <td>passcode</td>
 </tr>
 <?php
 while ( $row=$stmt->fetch(PDO::FETCH_OBJ)) {
@@ -63,10 +63,10 @@ while ( $row=$stmt->fetch(PDO::FETCH_OBJ)) {
 		echo"
 		<tr>
 		<td>".$id++."</td>
-		<td>{$row->username}</td>
-		<td>{$row->password}</td>
-		<td>{$row->Time}</td>
-    <td>{$row->activ}</td>
+		<td>{$row->name}</td>
+		<td>{$row->surname}</td>
+		<td>{$row->mail}</td>
+    <td>{$row->passcode}</td>
 		<td><a href ='dashbord.php?login=activ&id={$row->id}'>activ</a></td>
         <td>{$row->timd}</td>
 		</tr>
@@ -79,10 +79,10 @@ while ( $row=$stmt->fetch(PDO::FETCH_OBJ)) {
 echo"
 		<tr>
 		<td>".$id++."</td>
-		<td>{$row->username}</td>
-		<td>{$row->password}</td>
-    <td>{$row->Time}</td>
-		<td>{$row->activ}</td>
+		<td>{$row->name}</td>
+		<td>{$row->surname}</td>
+    <td>{$row->mail}</td>
+		<td>{$row->passcode}</td>
     <td>$date</td>
 		<td><a href ='dashbord.php?login=unactiv&id={$row->id}'>unactiv</a></td>
 		</tr>

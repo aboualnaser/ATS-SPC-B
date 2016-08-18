@@ -13,19 +13,23 @@
 <body>
   <?php
 	if(isset($_POST['add-new'])){
-		$username=$_POST["username"];
-		$password=$_POST["password"];
-		$email=$_POST["email"];
+		$username=$_POST["name"];
+    $surname=$_POST["surname"];
+		$password=$_POST["passcode"];
+		$mail=$_POST["mail"];
+
         $errors =array();
 		if (empty($username) || empty($password)) {
 			$errors[]="ALL Fields requierd";
 		}
 		else{
 		include 'conn.php';
-		$sql ="INSERT INTO users(name,passcode) VALUES (?,?)";
+		$sql ="INSERT INTO users(name,surname,mail,passcode) VALUES (?,?,?,?)";
 		$stmt=$conn->prepare($sql);
 		$stmt->bindParam(1,$username,PDO::PARAM_STR);
-		$stmt->bindParam(2,$password,PDO::PARAM_STR);
+		$stmt->bindParam(2,$surname,PDO::PARAM_STR);
+    $stmt->bindParam(3,$mail,PDO::PARAM_STR);
+    $stmt->bindParam(4,$password,PDO::PARAM_STR);
 		$stmt->execute();
 		$success = "the table is add";
 		}
@@ -37,10 +41,10 @@
 <h2>(Suivi de Présence du Collaborateur)</h2>
 </div>
 <ul class="nav nav-pills">
-  <li role="presentation" class="active"><a href="dashbord.php"><span class="glyphicon glyphicon-asterisk"></span>Dashbord</a></li>
-  <li role="presentation"><a href="addnew.php"><span class="glyphicon glyphicon-asterisk"></span>Addnew</a></li>
-  <li role="presentation"><a href="showall.php"><span class="glyphicon glyphicon-asterisk"></span>Report</a></li>
-  <li role="presentation"><a href="login.php"><span class="glyphicon glyphicon-asterisk"></span>login</a></li>
+  <li role="presentation" class="active"><a href="php/dashbord.php"><span class="glyphicon glyphicon-asterisk"></span>Dashbord</a></li>
+  <li role="presentation"class="active"><a href="php/addnew.php"><span class="glyphicon glyphicon-asterisk"></span>Addnew</a></li>
+  <li role="presentation"class="active"><a href="php/showall.php"><span class="glyphicon glyphicon-asterisk"></span>Showall</a></li>
+  <li role="presentation"class="active"><a href="../index.php"><span class="glyphicon glyphicon-asterisk"></span>checkin</a></li>
 </ul>
 <form class="form-horizontal" action="" method="POST">
   <br/>
@@ -60,15 +64,29 @@
   <div class="control-group">
     <label class="control-label" for="textinput-1">username</label>
     <div class="controls">
-      <input id="textinput-1" name="username" type="text" placeholder="username" class="input-xlarge">
+      <input id="textinput-1" name="name" type="text" placeholder="username" class="input-xlarge">
     </div>
   </div>
 
   <!-- Text input-->
   <div class="control-group">
-    <label class="control-label" for="textinput-1">password</label>
+    <label class="control-label" for="textinput-1">surname</label>
     <div class="controls">
-      <input id="textinput-1" name="password" type="text" placeholder="password" class="password">
+      <input id="textinput-1" name="surname" type="text" placeholder="surname" class="input-xlarge">
+    </div>
+  </div>
+  <!-- Text input-->
+  <div class="control-group">
+    <label class="control-label" for="textinput-1">email</label>
+    <div class="controls">
+      <input id="textinput-1" name="mail" type="text" placeholder="mail" class="input-xlarge">
+    </div>
+  </div>
+  <!-- Text input-->
+  <div class="control-group">
+    <label class="control-label" for="textinput-1">passcode</label>
+    <div class="controls">
+      <input id="textinput-1" name="passcode" type="text" placeholder="passcode" class="input-xlarge">
     </div>
   </div>
 <!-- Button -->
